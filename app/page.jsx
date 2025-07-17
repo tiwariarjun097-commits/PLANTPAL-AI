@@ -2,57 +2,79 @@
 
 import { useEffect } from "react";
 
-export default function Home() {
+export default function HomePage() {
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://cdn.botpress.cloud/webchat/v1/inject.js";
-    script.async = true;
-    script.onload = () => {
-      window.botpressWebChat.init({
-        botId: "your-bot-id", // 🔁 Replace this with your real bot ID
-        hostUrl: "https://cdn.botpress.cloud/webchat/v1",
-        messagingUrl: "https://messaging.botpress.cloud",
-        clientId: "your-bot-id", // 🔁 Replace this too
-        lazySocket: true,
-        botName: "PlantPal Assistant 🌿",
-      });
-    };
-    document.body.appendChild(script);
+    // Inject Botpress Chat Engine
+    const script1 = document.createElement("script");
+    script1.src = "https://cdn.botpress.cloud/webchat/v3.2/inject.js";
+    script1.defer = true;
+    document.body.appendChild(script1);
+
+    // Inject Your Bot Configuration
+    const script2 = document.createElement("script");
+    script2.src = "https://files.bpcontent.cloud/2025/07/17/08/20250717083157-FK3AX8D4.js";
+    script2.defer = true;
+    document.body.appendChild(script2);
+
+    // Inject CSS override to make the chat full screen
+    const style = document.createElement("style");
+    style.innerHTML = `
+      #bp-web-widget {
+        bottom: 0 !important;
+        right: 0 !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        z-index: 9999 !important;
+      }
+      .bpw-floating-button {
+        display: none !important;
+      }
+    `;
+    document.head.appendChild(style);
   }, []);
 
   return (
-    <main style={styles.main}>
-      <h1 style={styles.heading}>PlantPal AI 🌿</h1>
-      <p style={styles.subheading}>
-        Ask anything about plants, pests, diseases, or care
-      </p>
-      <p style={{ marginTop: "40px", color: "#555", fontSize: "1rem" }}>
-        👇 Chat icon is at the bottom-right corner.
-      </p>
-    </main>
+    <div style={styles.wrapper}>
+      <header style={styles.header}>
+        <h1 style={styles.logo}>🌿 PlantPal AI</h1>
+        <p style={styles.subtitle}>Your full-screen plant care assistant</p>
+      </header>
+    </div>
   );
 }
 
 const styles = {
-  main: {
-    padding: "40px",
-    maxWidth: "600px",
-    margin: "0 auto",
-    textAlign: "center",
+  wrapper: {
+    width: "100vw",
+    height: "100vh",
+    margin: 0,
+    padding: 0,
+    display: "flex",
+    flexDirection: "column",
     fontFamily: "Arial, sans-serif",
-    backgroundColor: "#fff",
-    borderRadius: "12px",
-    boxShadow: "0 0 12px rgba(0, 0, 0, 0.1)",
-    marginTop: "60px",
+    backgroundColor: "#111",
+    color: "#fff",
   },
-  heading: {
-    fontSize: "2.2rem",
-    marginBottom: "10px",
-    color: "#2e7d32",
+  header: {
+    padding: "20px",
+    backgroundColor: "#1b5e20",
+    textAlign: "center",
+    borderBottom: "2px solid #2e7d32",
+    zIndex: 99999,
   },
-  subheading: {
-    fontSize: "1.2rem",
-    marginBottom: "25px",
-    color: "#555",
+  logo: {
+    margin: 0,
+    fontSize: "2rem",
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  subtitle: {
+    marginTop: "8px",
+    fontSize: "1rem",
+    color: "#c8e6c9",
   },
 };
