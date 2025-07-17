@@ -10,7 +10,7 @@ export default function Home() {
   const handleAsk = async () => {
     setAnswer("");
     setError("");
-    
+
     if (!question.trim()) {
       setError("Please enter a question.");
       return;
@@ -20,22 +20,36 @@ export default function Home() {
       const res = await fetch("https://eoa7n67dkbe4097.m.pipedream.net", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ question })
+        body: JSON.stringify({ question }),
       });
 
-      const data = await res.json();
+      const raw = await res.text();
+      console.log("🌐 Raw Response:", raw);
 
-      if (data?.data?.advice) {
-        setAnswer(data.data.advice);
-      } else if (data?.advice) {
-        setAnswer(data.advice);
-      } else {
-        setError("Sorry, I couldn’t understand the plant question.");
+      try {
+        const data = JSON.parse(raw);
+        console.log("✅ Parsed Response:", data);
+
+        if (data?.data?.advice) {
+          setAnswer(data.data.advice);
+        } else if (data?.advice) {
+          setAnswer(data.advice);
+        } else if (data?.answer) {
+          setAnswer(data.answer);
+        } else if (typeof data === "string") {
+          setAnswer(data);
+        } else {
+          setError("⚠️ No readable answer from backend.");
+        }
+      } catch (err) {
+        console.error("❌ JSON Parse Error:", err);
+        setError("Error: Invalid response from server.");
       }
-    } catch (err) {
-      setError("❌ Something went wrong. Please try again later.");
+    } catch (error) {
+      console.error("❌ Request Failed:", error);
+      setError("Something went wrong. Please try again later.");
     }
   };
 
@@ -131,5 +145,6 @@ const styles = {
     fontWeight: "bold",
   },
 };
+
 
 
