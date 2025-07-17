@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -20,36 +21,31 @@ export default function Home() {
       const res = await fetch("https://eoa7n67dkbe4097.m.pipedream.net", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify({ question }),
+        body: JSON.stringify({ question })
       });
 
-      const raw = await res.text();
-      console.log("🌐 Raw Response:", raw);
+      const data = await res.json();
+      const ai = data?.data?.ai_response;
 
-      try {
-        const data = JSON.parse(raw);
-        console.log("✅ Parsed Response:", data);
+      if (ai) {
+        const responseText = `🌿 Diagnosis: ${ai.diagnosis}
 
-        if (data?.data?.advice) {
-          setAnswer(data.data.advice);
-        } else if (data?.advice) {
-          setAnswer(data.advice);
-        } else if (data?.answer) {
-          setAnswer(data.answer);
-        } else if (typeof data === "string") {
-          setAnswer(data);
-        } else {
-          setError("⚠️ No readable answer from backend.");
-        }
-      } catch (err) {
-        console.error("❌ JSON Parse Error:", err);
-        setError("Error: Invalid response from server.");
+🧪 Solution:
+- ${ai.solution.join("\n- ")}
+
+📆 Timeline: ${ai.timeline}
+
+🛡️ Preventive Care:
+${ai.preventive_care}`;
+
+        setAnswer(responseText);
+      } else {
+        setError("⚠️ Could not find AI response.");
       }
-    } catch (error) {
-      console.error("❌ Request Failed:", error);
-      setError("Something went wrong. Please try again later.");
+    } catch (err) {
+      setError("❌ Something went wrong. Please try again later.");
     }
   };
 
@@ -57,12 +53,14 @@ export default function Home() {
     <main style={styles.main}>
       <h1 style={styles.heading}>PlantPal AI 🌿</h1>
       <p style={styles.subheading}>Ask anything about your plant or farming</p>
+
       <textarea
         placeholder="Why are my hibiscus leaves turning yellow?"
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
         style={styles.textarea}
       />
+
       <button onClick={handleAsk} style={styles.button}>
         Ask PlantPal
       </button>
@@ -145,6 +143,7 @@ const styles = {
     fontWeight: "bold",
   },
 };
+
 
 
 
