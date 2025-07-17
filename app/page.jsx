@@ -8,26 +8,41 @@ export default function Home() {
 
   const handleAsk = async () => {
     setAnswer("Thinking...");
-   const res = await fetch("https://eo9hhupyw2lugu4.m.pipedream.net", {
-      method: "POST",
-      body: JSON.stringify({ question }),
-      headers: { "Content-Type": "application/json" },
-    });
-    const data = await res.json();
-    setAnswer(data.answer);
+
+    try {
+      const res = await fetch("https://eo9hhupyw2lugu4.m.pipedream.net", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ question })
+      });
+
+      const data = await res.json();
+
+      if (data.advice) {
+        setAnswer(data.advice);
+      } else {
+        setAnswer("Sorry, I couldn’t understand the plant question.");
+      }
+    } catch (error) {
+      setAnswer("Something went wrong. Please try again later.");
+    }
   };
 
   return (
     <main style={styles.main}>
-      <h1 style={styles.heading}>PlantPal AI</h1>
-      <p style={styles.subheading}>Ask any question about your plant</p>
+      <h1 style={styles.heading}>PlantPal AI 🌿</h1>
+      <p style={styles.subheading}>Ask anything about your plant</p>
       <textarea
         placeholder="Why are my hibiscus leaves turning yellow?"
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
         style={styles.textarea}
       />
-      <button onClick={handleAsk} style={styles.button}>Ask PlantPal</button>
+      <button onClick={handleAsk} style={styles.button}>
+        Ask PlantPal
+      </button>
       {answer && <p style={styles.answer}>{answer}</p>}
     </main>
   );
