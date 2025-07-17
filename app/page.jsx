@@ -8,7 +8,7 @@ export default function Home() {
 
   const handleAsk = async () => {
     setAnswer("Thinking...");
-    const res = await fetch("https://eo9zdnosphaluwo.m.pipedream.net", {
+   const res = await fetch("https://eo9hhupyw2lugu4.m.pipedream.net", {
       method: "POST",
       body: JSON.stringify({ question }),
       headers: { "Content-Type": "application/json" },
