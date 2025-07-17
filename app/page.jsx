@@ -2,84 +2,57 @@
 
 import { useEffect } from "react";
 
-export default function HomePage() {
+export default function Home() {
   useEffect(() => {
-    // Inject Botpress Engine
-    const script1 = document.createElement("script");
-    script1.src = "https://cdn.botpress.cloud/webchat/v3.2/inject.js";
-    script1.defer = true;
-    document.body.appendChild(script1);
-
-    // Inject Config
-    const script2 = document.createElement("script");
-    script2.src = "https://files.bpcontent.cloud/2025/07/17/08/20250717083157-FK3AX8D4.js";
-    script2.defer = true;
-    document.body.appendChild(script2);
-
-    // Wait for WebChat to load, then show it full screen
-    const interval = setInterval(() => {
-      if (window.botpressWebChat) {
-        window.botpressWebChat.sendEvent({ type: "show" });
-        clearInterval(interval);
-      }
-    }, 500);
-
-    // Fullscreen Styles
-    const style = document.createElement("style");
-    style.innerHTML = `
-      #bp-web-widget {
-        all: unset;
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        z-index: 9999 !important;
-      }
-      .bpw-floating-button {
-        display: none !important;
-      }
-    `;
-    document.head.appendChild(style);
+    const script = document.createElement("script");
+    script.src = "https://cdn.botpress.cloud/webchat/v1/inject.js";
+    script.async = true;
+    script.onload = () => {
+      window.botpressWebChat.init({
+        botId: "your-bot-id", // 🔁 Replace this with your real bot ID
+        hostUrl: "https://cdn.botpress.cloud/webchat/v1",
+        messagingUrl: "https://messaging.botpress.cloud",
+        clientId: "your-bot-id", // 🔁 Replace this too
+        lazySocket: true,
+        botName: "PlantPal Assistant 🌿",
+      });
+    };
+    document.body.appendChild(script);
   }, []);
 
   return (
-    <div style={styles.page}>
-      <header style={styles.header}>
-        <h1 style={styles.logo}>🌿 PlantPal AI</h1>
-        <p style={styles.subtitle}>Your full-screen plant care assistant</p>
-      </header>
-    </div>
+    <main style={styles.main}>
+      <h1 style={styles.heading}>PlantPal AI 🌿</h1>
+      <p style={styles.subheading}>
+        Ask anything about plants, pests, diseases, or care
+      </p>
+      <p style={{ marginTop: "40px", color: "#555", fontSize: "1rem" }}>
+        👇 Chat icon is at the bottom-right corner.
+      </p>
+    </main>
   );
 }
 
 const styles = {
-  page: {
-    width: "100vw",
-    height: "100vh",
-    backgroundColor: "#000",
-    fontFamily: "Arial, sans-serif",
-    overflow: "hidden",
-  },
-  header: {
-    position: "absolute",
-    zIndex: 99999,
-    top: 20,
-    left: 0,
-    right: 0,
+  main: {
+    padding: "40px",
+    maxWidth: "600px",
+    margin: "0 auto",
     textAlign: "center",
-    color: "#fff",
+    fontFamily: "Arial, sans-serif",
+    backgroundColor: "#fff",
+    borderRadius: "12px",
+    boxShadow: "0 0 12px rgba(0, 0, 0, 0.1)",
+    marginTop: "60px",
   },
-  logo: {
-    margin: 0,
-    fontSize: "2rem",
-    fontWeight: "bold",
+  heading: {
+    fontSize: "2.2rem",
+    marginBottom: "10px",
+    color: "#2e7d32",
   },
-  subtitle: {
-    fontSize: "1rem",
-    marginTop: 4,
-    color: "#ccc",
+  subheading: {
+    fontSize: "1.2rem",
+    marginBottom: "25px",
+    color: "#555",
   },
 };
-
-
