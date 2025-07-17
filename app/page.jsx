@@ -12,8 +12,8 @@ export default function Home() {
     setResponse(null);
 
     try {
-      const res = await fetch("https://eo9hhupyw2lugu4.m.pipedream.net", {
-        method: "POST",
+    const res = await fetch("https://eoa7n67dkbe4097.m.pipedream.net", {
+      method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
