@@ -4,10 +4,12 @@ import { useState } from "react";
 
 export default function Home() {
   const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState("");
+  const [response, setResponse] = useState(null);
+  const [status, setStatus] = useState("");
 
   const handleAsk = async () => {
-    setAnswer("Thinking...");
+    setStatus("Thinking...");
+    setResponse(null);
 
     try {
       const res = await fetch("https://eo9hhupyw2lugu4.m.pipedream.net", {
@@ -20,22 +22,27 @@ export default function Home() {
 
       const data = await res.json();
 
-      if (data.advice) {
-        setAnswer(data.advice);
+      if (data?.data) {
+        setResponse(data.data);
+        setStatus("✅ Answer ready!");
+      } else if (data?.advice) {
+        setResponse({ solution: data.advice }); // fallback
+        setStatus("✅ Answer ready!");
       } else {
-        setAnswer("Sorry, I couldn’t understand the plant question.");
+        setStatus("❌ Sorry, I couldn’t understand the plant question.");
       }
     } catch (error) {
-      setAnswer("Something went wrong. Please try again later.");
+      setStatus("❌ Something went wrong. Please try again later.");
     }
   };
 
   return (
     <main style={styles.main}>
-      <h1 style={styles.heading}>PlantPal AI 🌿</h1>
-      <p style={styles.subheading}>Ask anything about your plant</p>
+      <h1 style={styles.heading}>PlantPal AI 🌾</h1>
+      <p style={styles.subheading}>Ask about plants, crops, or farming issues</p>
+
       <textarea
-        placeholder="Why are my hibiscus leaves turning yellow?"
+        placeholder="Why are my tomato leaves curling?"
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
         style={styles.textarea}
@@ -43,7 +50,32 @@ export default function Home() {
       <button onClick={handleAsk} style={styles.button}>
         Ask PlantPal
       </button>
-      {answer && <p style={styles.answer}>{answer}</p>}
+
+      {status && <p style={styles.status}>{status}</p>}
+
+      {response && (
+        <div style={styles.answerBox}>
+          <h3 style={styles.answerHeading}>Answer:</h3>
+          {response.diagnosis && (
+            <p><strong>Diagnosis:</strong> {response.diagnosis}</p>
+          )}
+          {response.solution && (
+            <p><strong>Solution:</strong> {response.solution}</p>
+          )}
+          {response.timeline && (
+            <p><strong>Timeline:</strong> {response.timeline}</p>
+          )}
+          {response.severity && (
+            <p><strong>Severity:</strong> {response.severity}</p>
+          )}
+          {response.preventive_care && (
+            <p><strong>Preventive Care:</strong> {response.preventive_care}</p>
+          )}
+          {response.additional_resources && (
+            <p><strong>Resources:</strong> {response.additional_resources.join(", ")}</p>
+          )}
+        </div>
+      )}
     </main>
   );
 }
@@ -51,37 +83,37 @@ export default function Home() {
 const styles = {
   main: {
     padding: "40px",
-    maxWidth: "600px",
+    maxWidth: "650px",
     margin: "0 auto",
-    textAlign: "center",
     fontFamily: "Arial, sans-serif",
-    backgroundColor: "#fff",
-    borderRadius: "12px",
-    boxShadow: "0 0 12px rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#ffffff",
+    borderRadius: "14px",
+    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
     marginTop: "60px",
+    textAlign: "center",
   },
   heading: {
-    fontSize: "2.2rem",
-    marginBottom: "10px",
+    fontSize: "2.4rem",
+    marginBottom: "8px",
     color: "#2e7d32",
   },
   subheading: {
-    fontSize: "1.2rem",
-    marginBottom: "25px",
-    color: "#555",
+    fontSize: "1.1rem",
+    marginBottom: "20px",
+    color: "#444",
   },
   textarea: {
     width: "100%",
-    height: "100px",
+    height: "110px",
     padding: "12px",
     fontSize: "1rem",
-    borderRadius: "8px",
+    borderRadius: "10px",
     border: "1px solid #ccc",
-    marginBottom: "18px",
+    marginBottom: "16px",
     resize: "none",
   },
   button: {
-    padding: "10px 24px",
+    padding: "10px 26px",
     fontSize: "1rem",
     borderRadius: "10px",
     backgroundColor: "#4caf50",
@@ -89,14 +121,26 @@ const styles = {
     border: "none",
     cursor: "pointer",
   },
-  answer: {
+  status: {
     marginTop: "20px",
-    textAlign: "left",
-    whiteSpace: "pre-wrap",
-    padding: "15px",
-    backgroundColor: "#f9f9f9",
-    borderRadius: "10px",
-    fontSize: "1rem",
+    fontWeight: "bold",
     color: "#333",
   },
+  answerBox: {
+    marginTop: "30px",
+    padding: "20px",
+    textAlign: "left",
+    backgroundColor: "#f1f8e9",
+    borderRadius: "12px",
+    maxHeight: "300px",
+    overflowY: "auto",
+    color: "#2e7d32",
+    boxShadow: "0 0 8px rgba(0, 0, 0, 0.05)",
+  },
+  answerHeading: {
+    fontSize: "1.2rem",
+    marginBottom: "10px",
+    color: "#33691e",
+  }
 };
+
