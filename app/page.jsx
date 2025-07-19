@@ -4,20 +4,28 @@ import { useEffect } from "react";
 
 export default function HomePage() {
   useEffect(() => {
-    // Load Botpress scripts only once
-    const existingBot = document.getElementById("botpress-script");
-    if (!existingBot) {
-      const script = document.createElement("script");
-      script.id = "botpress-script";
-      script.src = "https://cdn.botpress.cloud/webchat/v3.2/inject.js";
-      script.defer = true;
-      document.body.appendChild(script);
-
-      const config = document.createElement("script");
-      config.src = "https://files.bpcontent.cloud/2025/07/17/08/20250717083157-FK3AX8D4.js";
-      config.defer = true;
-      document.body.appendChild(config);
-    }
+    const injectScript = document.createElement("script");
+    injectScript.src = "https://cdn.botpress.cloud/webchat/v3.2/inject.js";
+    injectScript.async = true;
+    injectScript.onload = () => {
+      if (window.botpressWebChat) {
+        window.botpressWebChat.init({
+          composerPlaceholder: "Ask me anything about plants...",
+          botId: "604ce269-bc71-4cd5-9964-5e9b7c1141a4",
+          hostUrl: "https://cdn.botpress.cloud/webchat/v3.2",
+          messagingUrl: "https://messaging.botpress.cloud",
+          clientId: "604ce269-bc71-4cd5-9964-5e9b7c1141a4",
+          botName: "PlantPal AI",
+          showPoweredBy: false,
+          themeName: "prism",
+          stylesheet: "https://cdn.botpress.cloud/webchat/v3.2/themes/prism.css",
+          lazySocket: true,
+        });
+      } else {
+        console.error("Botpress WebChat failed to load.");
+      }
+    };
+    document.body.appendChild(injectScript);
   }, []);
 
   return (
