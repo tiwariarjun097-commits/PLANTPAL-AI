@@ -16,21 +16,11 @@ export default function HomePage() {
     script2.defer = true;
     document.body.appendChild(script2);
 
-    // Inject full-screen styling override
+    // Optional: Minimal Styling (no fullscreen override)
     const style = document.createElement("style");
     style.innerHTML = `
       #bp-web-widget {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        border-radius: 0 !important;
-        box-shadow: none !important;
         z-index: 9999 !important;
-      }
-      .bpw-floating-button {
-        display: none !important;
       }
     `;
     document.head.appendChild(style);
@@ -40,9 +30,8 @@ export default function HomePage() {
     <div style={styles.wrapper}>
       <header style={styles.header}>
         <h1 style={styles.logo}>🌿 PlantPal AI</h1>
-        <p style={styles.subtitle}>Your full-screen plant care assistant</p>
+        <p style={styles.subtitle}>Your intelligent plant care assistant</p>
       </header>
-      {/* Optional: Add fallback UI or instruction */}
     </div>
   );
 }
@@ -54,7 +43,7 @@ const styles = {
     margin: 0,
     padding: 0,
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "column" as const,
     fontFamily: "Arial, sans-serif",
     backgroundColor: "#111",
     color: "#fff",
@@ -62,14 +51,14 @@ const styles = {
   header: {
     padding: "20px",
     backgroundColor: "#1b5e20",
-    textAlign: "center",
+    textAlign: "center" as const,
     borderBottom: "2px solid #2e7d32",
     zIndex: 100000,
   },
   logo: {
     margin: 0,
     fontSize: "2rem",
-    fontWeight: "bold",
+    fontWeight: "bold" as const,
     color: "#fff",
   },
   subtitle: {
@@ -78,5 +67,6 @@ const styles = {
     color: "#c8e6c9",
   },
 };
+
 
 
