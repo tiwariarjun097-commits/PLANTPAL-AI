@@ -10,18 +10,17 @@ export default function HomePage() {
     script1.defer = true;
     document.body.appendChild(script1);
 
-    // Inject Your Bot Configuration
+    // Inject Your Bot Configuration Script
     const script2 = document.createElement("script");
     script2.src = "https://files.bpcontent.cloud/2025/07/17/08/20250717083157-FK3AX8D4.js";
     script2.defer = true;
     document.body.appendChild(script2);
 
-    // Inject CSS override to make the chat full screen
+    // Inject full-screen styling override
     const style = document.createElement("style");
     style.innerHTML = `
       #bp-web-widget {
-        bottom: 0 !important;
-        right: 0 !important;
+        position: fixed !important;
         top: 0 !important;
         left: 0 !important;
         width: 100vw !important;
@@ -43,6 +42,7 @@ export default function HomePage() {
         <h1 style={styles.logo}>🌿 PlantPal AI</h1>
         <p style={styles.subtitle}>Your full-screen plant care assistant</p>
       </header>
+      {/* Optional: Add fallback UI or instruction */}
     </div>
   );
 }
@@ -64,7 +64,7 @@ const styles = {
     backgroundColor: "#1b5e20",
     textAlign: "center",
     borderBottom: "2px solid #2e7d32",
-    zIndex: 99999,
+    zIndex: 100000,
   },
   logo: {
     margin: 0,
