@@ -1,21 +1,27 @@
 "use client";
 
-import Script from "next/script";
+import { useEffect } from "react";
 
 export default function HomePage() {
-  return (
-    <>
-      {/* Botpress Chatbot Inject */}
-      <Script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js" strategy="afterInteractive" />
-      <Script src="https://files.bpcontent.cloud/2025/07/17/08/20250717083157-FK3AX8D4.js" strategy="afterInteractive" />
+  useEffect(() => {
+    const script1 = document.createElement("script");
+    script1.src = "https://cdn.botpress.cloud/webchat/v3.2/inject.js";
+    script1.defer = true;
+    document.body.appendChild(script1);
 
-      <div style={styles.wrapper}>
-        <header style={styles.header}>
-          <h1 style={styles.logo}>🌿 PlantPal AI</h1>
-          <p style={styles.subtitle}>Your nature expert</p>
-        </header>
-      </div>
-    </>
+    const script2 = document.createElement("script");
+    script2.src = "https://files.bpcontent.cloud/2025/07/17/08/20250717083157-FK3AX8D4.js";
+    script2.defer = true;
+    document.body.appendChild(script2);
+  }, []);
+
+  return (
+    <div style={styles.wrapper}>
+      <header style={styles.header}>
+        <h1 style={styles.logo}>🌿 PlantPal AI</h1>
+        <p style={styles.subtitle}>Your nature expert</p>
+      </header>
+    </div>
   );
 }
 
