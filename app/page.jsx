@@ -1,45 +1,82 @@
+"use client";
 
+import { useEffect } from "react";
 
-'use client'
-
-import { useEffect } from 'react'
-
-export default function Home() {
+export default function HomePage() {
   useEffect(() => {
-    const script = document.createElement('script')
-    script.src = 'https://cdn.botpress.cloud/webchat/v1/inject.js'
-    script.async = true
-    document.body.appendChild(script)
+    // Inject Botpress Chat Engine
+    const script1 = document.createElement("script");
+    script1.src = "https://cdn.botpress.cloud/webchat/v3.2/inject.js";
+    script1.defer = true;
+    document.body.appendChild(script1);
 
-    script.onload = () => {
-      window.botpressWebChat.init({
-        botId: '604ce269-bc71-4cd5-9964-5e9b7c1141a4',
-        hostUrl: 'https://cdn.botpress.cloud/webchat/v1',
-        messagingUrl: 'https://messaging.botpress.cloud',
-        clientId: '604ce269-bc71-4cd5-9964-5e9b7c1141a4',
-        lazySocket: true,
-        themeName: 'prism',
-        botName: 'PlantPal AI',
-        avatarUrl: 'https://i.imgur.com/OUkLi.gif',
-        stylesheet: 'https://botpress.com/css/index.css',
-        enableConversationDeletion: true,
-        showPoweredBy: false,
-        containerWidth: '100%',
-        layoutWidth: '100%',
-        hideWidget: true, // Hides the default bubble
-        disableAnimations: false,
-        enableTranscriptDownload: false,
-        // Forces it to open automatically and full screen
-        showCloseButton: false,
-        openByDefault: true,
-      })
-    }
-  }, [])
+    // Inject Your Bot Configuration
+    const script2 = document.createElement("script");
+    script2.src = "https://files.bpcontent.cloud/2025/07/17/08/20250717083157-FK3AX8D4.js";
+    script2.defer = true;
+    document.body.appendChild(script2);
+
+    // Inject CSS override to make the chat full screen
+    const style = document.createElement("style");
+    style.innerHTML = `
+      #bp-web-widget {
+        bottom: 0 !important;
+        right: 0 !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        z-index: 9999 !important;
+      }
+      .bpw-floating-button {
+        display: none !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }, []);
 
   return (
-    <main style={{ height: '100vh', width: '100vw' }}>
-      <div id="webchat" style={{ height: '100%', width: '100%' }} />
-    </main>
-  )
+    <div style={styles.wrapper}>
+      <header style={styles.header}>
+        <h1 style={styles.logo}>🌿 PlantPal AI</h1>
+        <p style={styles.subtitle}>Your full-screen plant care assistant</p>
+      </header>
+    </div>
+  );
 }
+
+const styles = {
+  wrapper: {
+    width: "100vw",
+    height: "100vh",
+    margin: 0,
+    padding: 0,
+    display: "flex",
+    flexDirection: "column",
+    fontFamily: "Arial, sans-serif",
+    backgroundColor: "#111",
+    color: "#fff",
+  },
+  header: {
+    padding: "20px",
+    backgroundColor: "#1b5e20",
+    textAlign: "center",
+    borderBottom: "2px solid #2e7d32",
+    zIndex: 99999,
+  },
+  logo: {
+    margin: 0,
+    fontSize: "2rem",
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  subtitle: {
+    marginTop: "8px",
+    fontSize: "1rem",
+    color: "#c8e6c9",
+  },
+};
+
 
