@@ -3,10 +3,11 @@ import { useEffect } from "react";
 
 export default function HomePage() {
   useEffect(() => {
-    // Inject Botpress engine
+    // Inject Botpress script
     const script = document.createElement("script");
     script.src = "https://cdn.botpress.cloud/webchat/v3.2/inject.js";
     script.async = true;
+
     script.onload = () => {
       window.botpressWebChat.init({
         botId: "604ce269-bc71-4cd5-9964-5e9b7c1141a4",
@@ -14,20 +15,23 @@ export default function HomePage() {
         configuration: {
           version: "v1",
           botName: "PlantPal Assistant",
-          botDescription: "I provide expert guidance on plant care, small-scale farming, and gardening. Ask me about diagnosing plant problems, watering, pests, fertilizing, and sustainable growing methods.",
+          botDescription:
+            "I provide expert guidance on plant care, small-scale farming, and gardening. Ask me about diagnosing plant problems, watering, pests, fertilizing, and sustainable growing methods.",
           color: "#3276EA",
           themeMode: "dark",
-          fontFamily: "inter",
-          radius: 4,
+          fontFamily: "Inter",
+          radius: 0,
           feedbackEnabled: true,
-          footer: "[⚡ by Botpress](https://botpress.com/?from=webchat)",
-          additionalStylesheetUrl: "https://files.bpcontent.cloud/2025/07/19/09/20250719092220-ORDCC44J.css"
-        }
+          layoutWidth: "100%",
+          stylesheet:
+            "https://files.bpcontent.cloud/2025/07/19/09/20250719092220-ORDCC44J.css",
+        },
       });
     };
+
     document.body.appendChild(script);
 
-    // Fullscreen styling
+    // Force fullscreen styles
     const style = document.createElement("style");
     style.innerHTML = `
       #bp-web-widget {
@@ -50,10 +54,25 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div style={{ width: "100vw", height: "100vh", backgroundColor: "#000" }}>
-      <h1 style={{ textAlign: "center", color: "white", padding: "20px" }}>
-        🌿 PlantPal AI Chatbot
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "#000",
+      }}
+    >
+      {/* Optional: a loading screen or bot name before the bot appears */}
+      <h1
+        style={{
+          textAlign: "center",
+          color: "white",
+          paddingTop: "40vh",
+          fontSize: "24px",
+        }}
+      >
+        🌿 Loading PlantPal AI Chatbot...
       </h1>
     </div>
   );
 }
+
