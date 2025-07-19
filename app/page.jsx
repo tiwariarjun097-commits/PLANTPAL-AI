@@ -4,39 +4,27 @@ import { useEffect } from "react";
 
 export default function HomePage() {
   useEffect(() => {
-    // Inject Botpress Chat Engine
-    const script1 = document.createElement("script");
-    script1.src = "https://cdn.botpress.cloud/webchat/v3.2/inject.js";
-    script1.defer = true;
-    document.body.appendChild(script1);
+    // Load Botpress scripts only once
+    const existingBot = document.getElementById("botpress-script");
+    if (!existingBot) {
+      const script = document.createElement("script");
+      script.id = "botpress-script";
+      script.src = "https://cdn.botpress.cloud/webchat/v3.2/inject.js";
+      script.defer = true;
+      document.body.appendChild(script);
 
-    // Inject Your Bot Configuration Script
-    const script2 = document.createElement("script");
-    script2.src = "https://files.bpcontent.cloud/2025/07/17/08/20250717083157-FK3AX8D4.js";
-    script2.defer = true;
-    document.body.appendChild(script2);
-
-    // Optional: CSS override for full-screen if needed
-    const style = document.createElement("style");
-    style.innerHTML = `
-      #bp-web-widget {
-        position: fixed !important;
-        bottom: 0 !important;
-        right: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        border-radius: 0 !important;
-        z-index: 9999 !important;
-      }
-    `;
-    document.head.appendChild(style);
+      const config = document.createElement("script");
+      config.src = "https://files.bpcontent.cloud/2025/07/17/08/20250717083157-FK3AX8D4.js";
+      config.defer = true;
+      document.body.appendChild(config);
+    }
   }, []);
 
   return (
     <div style={styles.wrapper}>
       <header style={styles.header}>
         <h1 style={styles.logo}>🌿 PlantPal AI</h1>
-        <p style={styles.subtitle}>Your full-screen plant care assistant & nature expert</p>
+        <p style={styles.subtitle}>Your nature expert</p>
       </header>
     </div>
   );
@@ -59,7 +47,6 @@ const styles = {
     backgroundColor: "#1b5e20",
     textAlign: "center",
     borderBottom: "2px solid #2e7d32",
-    zIndex: 100000,
   },
   logo: {
     margin: 0,
