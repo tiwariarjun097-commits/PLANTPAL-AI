@@ -4,28 +4,28 @@ import { useEffect } from "react";
 
 export default function HomePage() {
   useEffect(() => {
-    const injectScript = document.createElement("script");
-    injectScript.src = "https://cdn.botpress.cloud/webchat/v3.2/inject.js";
-    injectScript.async = true;
-    injectScript.onload = () => {
+    const script = document.createElement("script");
+    script.src = "https://cdn.botpress.cloud/webchat/v3.2/inject.js";
+    script.defer = true;
+    script.onload = () => {
       if (window.botpressWebChat) {
         window.botpressWebChat.init({
-          composerPlaceholder: "Ask me anything about plants...",
           botId: "604ce269-bc71-4cd5-9964-5e9b7c1141a4",
+          clientId: "604ce269-bc71-4cd5-9964-5e9b7c1141a4",
           hostUrl: "https://cdn.botpress.cloud/webchat/v3.2",
           messagingUrl: "https://messaging.botpress.cloud",
-          clientId: "604ce269-bc71-4cd5-9964-5e9b7c1141a4",
           botName: "PlantPal AI",
           showPoweredBy: false,
+          enableConversationDeletion: true,
           themeName: "prism",
           stylesheet: "https://cdn.botpress.cloud/webchat/v3.2/themes/prism.css",
-          lazySocket: true,
+          composerPlaceholder: "Ask me anything about plants...",
         });
       } else {
         console.error("Botpress WebChat failed to load.");
       }
     };
-    document.body.appendChild(injectScript);
+    document.body.appendChild(script);
   }, []);
 
   return (
@@ -68,3 +68,4 @@ const styles = {
     color: "#c8e6c9",
   },
 };
+
