@@ -45,7 +45,7 @@ const styles = {
     margin: 0,
     padding: 0,
     display: "flex",
-    flexDirection: "column" as const,
+    flexDirection: "column",
     fontFamily: "Arial, sans-serif",
     backgroundColor: "#111",
     color: "#fff",
@@ -53,14 +53,14 @@ const styles = {
   header: {
     padding: "20px",
     backgroundColor: "#1b5e20",
-    textAlign: "center" as const,
+    textAlign: "center",
     borderBottom: "2px solid #2e7d32",
     zIndex: 100000,
   },
   logo: {
     margin: 0,
     fontSize: "2rem",
-    fontWeight: "bold" as const,
+    fontWeight: "bold",
     color: "#fff",
   },
   subtitle: {
