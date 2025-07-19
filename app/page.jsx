@@ -2,6 +2,12 @@
 
 import { useEffect } from "react";
 
+declare global {
+  interface Window {
+    botpressWebChat: any;
+  }
+}
+
 export default function HomePage() {
   useEffect(() => {
     const script = document.createElement("script");
@@ -63,5 +69,3 @@ const styles = {
     color: "#c8e6c9",
   },
 };
-
-
