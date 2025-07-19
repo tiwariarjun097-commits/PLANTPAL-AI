@@ -4,33 +4,39 @@ import { useEffect } from "react";
 
 export default function HomePage() {
   useEffect(() => {
-    // Inject Botpress Chat Engine
-    const script1 = document.createElement("script");
-    script1.src = "https://cdn.botpress.cloud/webchat/v3.2/inject.js";
-    script1.defer = true;
-    document.body.appendChild(script1);
+    // Inject Botpress Webchat Script
+    const injectScript = document.createElement("script");
+    injectScript.src = "https://cdn.botpress.cloud/webchat/v3.2/inject.js";
+    injectScript.async = true;
+    document.body.appendChild(injectScript);
 
-    // Inject Your Bot Configuration Script
-    const script2 = document.createElement("script");
-    script2.src = "https://files.bpcontent.cloud/2025/07/17/08/20250717083157-FK3AX8D4.js";
-    script2.defer = true;
-    document.body.appendChild(script2);
-
-    // Optional: Minimal Styling (no fullscreen override)
-    const style = document.createElement("style");
-    style.innerHTML = `
-      #bp-web-widget {
-        z-index: 9999 !important;
-      }
-    `;
-    document.head.appendChild(style);
+    // Delay config injection to ensure inject.js loads first
+    injectScript.onload = () => {
+      window.botpressWebChat.init({
+        "botId": "604ce269-bc71-4cd5-9964-5e9b7c1141a4",
+        "hostUrl": "https://cdn.botpress.cloud/webchat/v3.2",
+        "messagingUrl": "https://messaging.botpress.cloud",
+        "clientId": "604ce269-bc71-4cd5-9964-5e9b7c1141a4",
+        "lazySocket": true,
+        "themeName": "prism",
+        "botName": "PlantPal AI",
+        "stylesheet": "https://cdn.botpress.cloud/webchat/v3.2/themes/prism.css",
+        "enableConversationDeletion": true,
+        "theme": "prism",
+        "containerWidth": "400px",
+        "layoutWidth": "100%",
+        "hideWidget": false,
+        "disableAnimations": false,
+        "showPoweredBy": false
+      });
+    };
   }, []);
 
   return (
     <div style={styles.wrapper}>
       <header style={styles.header}>
         <h1 style={styles.logo}>🌿 PlantPal AI</h1>
-        <p style={styles.subtitle}>Your intelligent plant care assistant</p>
+        <p style={styles.subtitle}>Your nature expert</p>
       </header>
     </div>
   );
