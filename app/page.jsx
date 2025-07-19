@@ -10,11 +10,13 @@ export default function HomePage() {
     script1.defer = true;
     document.body.appendChild(script1);
 
-    // Inject Your Bot Configuration
-    const script2 = document.createElement("script");
-    script2.src = "https://files.bpcontent.cloud/2025/07/17/08/20250717083157-FK3AX8D4.js";
-    script2.defer = true;
-    document.body.appendChild(script2);
+    // Wait until Botpress is loaded, then inject config script
+    script1.onload = () => {
+      const script2 = document.createElement("script");
+      script2.src = "https://files.bpcontent.cloud/2025/07/17/08/20250717083157-FK3AX8D4.js";
+      script2.defer = true;
+      document.body.appendChild(script2);
+    };
 
     // Inject CSS override to make the chat full screen
     const style = document.createElement("style");
