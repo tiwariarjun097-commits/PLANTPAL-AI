@@ -10,16 +10,8 @@ export default function HomePage() {
     script.onload = () => {
       if (window.botpressWebChat) {
         window.botpressWebChat.init({
-          botId: "604ce269-bc71-4cd5-9964-5e9b7c1141a4",
-          clientId: "604ce269-bc71-4cd5-9964-5e9b7c1141a4",
-          hostUrl: "https://cdn.botpress.cloud/webchat/v3.2",
-          messagingUrl: "https://messaging.botpress.cloud",
-          botName: "PlantPal AI",
-          showPoweredBy: false,
-          enableConversationDeletion: true,
-          themeName: "prism",
-          stylesheet: "https://cdn.botpress.cloud/webchat/v3.2/themes/prism.css",
-          composerPlaceholder: "Ask me anything about plants...",
+          configUrl:
+            "https://files.bpcontent.cloud/2025/07/17/08/20250717083157-RXXE6E0L.json",
         });
       } else {
         console.error("Botpress WebChat failed to load.");
